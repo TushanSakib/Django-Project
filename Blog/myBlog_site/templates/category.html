@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content%}
+{% if category_post%}
+<h1>{{cats}}</h1>
+<ul>
+{% for post in category_post%}
+<li>
+    <a href ="{% url 'article_details' post.pk %}" >{{post.title}}</a><br/>
+    <b>Author:</b> {{post.author.first_name}} {{post.author.last_name}}
+    {% if user.is_authenticated%}
+    <small><a href="{% url 'update_post' post.pk %}">Edit</a></small>
+    <small><a href="{% url 'delete_post' post.pk %}">Delete</a></small>
+    {% else %}
+    You are not allowed!!
+    {% endif %}
+    <br/>
+{{post.body|slice:":100"}}
+</li>
+
+{% endfor %}
+</ul>
+{% else %}
+Sorry!! This page doesn't exist...
+{% endif %}
+{% endblock %}

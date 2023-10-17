@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content%}
+
+<h1>Post</h1>
+<table class="table table-striped table-hover">
+
+{% for post in object_list %}
+    <tr>
+        <td>
+
+    <a class="dropdown-item" href ="{% url 'article_details' post.pk %}" >{{post.title}}</a>
+    -<a href="{% url 'category' post.category %}">{{post.category|slugify}}</a>
+    {{post.author.first_name}} {{post.author.last_name}}
+            <br/>
+            {{post.snippet}}
+
+             </td>
+        <td>
+    {% if user.is_authenticated%}
+            {% if user.id == post.author.id%}
+            <small><a href="{% url 'update_post' post.pk %}">Edit</a></small>
+            <small><a href="{% url 'delete_post' post.pk %}">Delete</a></small>
+{% endif %}
+
+    {% endif %}
+            </td>
+    </tr>
+
+{% endfor %}
+
+</table>
+{% endblock %}
